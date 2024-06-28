@@ -5,11 +5,13 @@ class Employee(models.Model):
     last_name = models.CharField(max_length=100, default='default_value')
     middle_name = models.CharField(max_length=100, default='default_value')
     job_title = models.CharField(max_length=50)
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
 
 
 class Task(models.Model):
     name = models.CharField(max_length=100)
     parent = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
-    employer_id = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    employer = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='tasks')
     completion_date = models.DateField()
-    is_active = models.CharField(max_length=20)
+    is_active = models.BooleanField(default=True)
