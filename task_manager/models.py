@@ -12,6 +12,9 @@ class Employee(models.Model):
 class Task(models.Model):
     name = models.CharField(max_length=100)
     parent = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
-    employer = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='tasks')
+    employer = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, blank=True, related_name='tasks')
     completion_date = models.DateField()
     is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.name}"

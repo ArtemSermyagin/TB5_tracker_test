@@ -1,4 +1,4 @@
-from django.db.models import Count
+from django.db.models import Count, Q
 from rest_framework import viewsets
 from rest_framework.generics import ListAPIView
 
@@ -14,14 +14,6 @@ class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
 
 class BusyEmployeesListAPIView(ListAPIView):
-    queryset = Employee.objects.annotate(count_tasks=Count('tasks')).all().order_by('-count_tasks')
+    queryset = Employee.objects.annotate(count_tasks=Count("tasks", filter=Q(tasks__is_active=True))).all().order_by('-count_tasks')
     # employees_with_count_tasks = queryset.all()
     serializer_class = EmployeeSerializer
-
-    # def get_queryset(self):
-    #     queryset = Employee.objects.filter(tasks__is_active=True) \
-    #         .annotate(count_tasks=Count('tasks')) \
-    #         .order_by('-count_tasks')
-    #
-    #     return queryset
-

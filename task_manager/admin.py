@@ -16,7 +16,7 @@ class EmployeeAdmin(admin.ModelAdmin):
 class TaskAdmin(admin.ModelAdmin):
     list_display = (
         'name',
-        'employer_id',
+        'employer',
         'completion_date',
         'is_active'
     )
